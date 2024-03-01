@@ -21,6 +21,11 @@ const groupDefinitions: GroupDefinition[] = [
         color: '#6c8ebf',
     },
     {
+        id: 'cassandra-0',
+        background: '#fbd9c6',
+        color: '#f8c5a7',
+    },
+    {
         id: 'postgresql-1',
         background: '#b89cc6',
         color: '#795789',
@@ -34,6 +39,11 @@ const groupDefinitions: GroupDefinition[] = [
         id: 'neo4j-1',
         background: '#83b1f4',
         color: '#486fa6',
+    },
+    {
+        id: 'cassandra-0',
+        background: '#fbc1a1',
+        color: '#f5a06e',
     },
 ];
 

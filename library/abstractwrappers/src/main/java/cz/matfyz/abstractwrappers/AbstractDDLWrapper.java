@@ -16,6 +16,8 @@ public interface AbstractDDLWrapper {
 
     void setKindName(String name);
 
+    void setPrimaryKey(Set<String> keyColumns);
+
     boolean isSchemaLess();
 
     boolean addSimpleProperty(Set<String> names, boolean required) throws UnsupportedException;

@@ -69,4 +69,9 @@ public class DummyDDLWrapper implements AbstractDDLWrapper {
 
         return builder.toString();
     }
+
+    @Override
+    public void setPrimaryKey(Set<String> keyColumns) {
+        // TODO Auto-generated method stub
+    }
 }

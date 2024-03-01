@@ -39,4 +39,9 @@ public class Neo4jDDLWrapper implements AbstractDDLWrapper {
     @Override public Neo4jStatement createDDLStatement() {
         return Neo4jStatement.createEmpty();
     }
+
+    @Override
+    public void setPrimaryKey(Set<String> keyColumns) {
+        // TODO Auto-generated method stub
+    }
 }

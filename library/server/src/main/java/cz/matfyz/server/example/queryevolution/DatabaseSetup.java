@@ -29,6 +29,7 @@ class DatabaseSetup {
 
         inits.add(settings.createPostgreSQL("PostgreSQL"));
         inits.add(settings.createMongoDB("MongoDB"));
+        inits.add(settings.createCassandra("Cassandra"));
         
         return inits.stream().map(databaseService::createNew).toList();
     }

@@ -4,6 +4,9 @@ import cz.matfyz.abstractwrappers.AbstractControlWrapper;
 import cz.matfyz.server.entity.Id;
 import cz.matfyz.server.entity.database.DatabaseEntity;
 import cz.matfyz.server.exception.DatabaseException;
+import cz.matfyz.wrappercassandradb.CassandraControlWrapper;
+import cz.matfyz.wrappercassandradb.CassandraProvider;
+import cz.matfyz.wrappercassandradb.CassandraSettings;
 import cz.matfyz.wrappermongodb.MongoDBControlWrapper;
 import cz.matfyz.wrappermongodb.MongoDBProvider;
 import cz.matfyz.wrappermongodb.MongoDBSettings;
@@ -33,6 +36,7 @@ public class WrapperService {
                 case mongodb -> getMongoDBControlWrapper(database);
                 case postgresql -> getPostgreSQLControlWrapper(database);
                 case neo4j -> getNeo4jControlWrapper(database);
+                case cassandra -> getCassandraControlWrapper(database);
                 default -> throw DatabaseException.wrapperNotFound(database);
             };
         }
@@ -95,6 +99,24 @@ public class WrapperService {
         final var settings = mapper.treeToValue(database.settings, Neo4jSettings.class);
 
         return new Neo4jProvider(settings);
+    }
+
+    // Cassandra
+
+    private Map<Id, CassandraProvider> cassandraCache = new TreeMap<>();
+
+    private CassandraControlWrapper getCassandraControlWrapper(DatabaseEntity database) throws IllegalArgumentException, JsonProcessingException {
+        if (!cassandraCache.containsKey(database.id))
+            cassandraCache.put(database.id, createCassandraProvider(database));
+
+        final var provider = cassandraCache.get(database.id);
+        return new CassandraControlWrapper(provider);
+    }
+
+    private static CassandraProvider createCassandraProvider(DatabaseEntity database) throws IllegalArgumentException, JsonProcessingException {
+        final var settings = mapper.treeToValue(database.settings, CassandraSettings.class);
+
+        return new CassandraProvider(settings);
     }
 
 }

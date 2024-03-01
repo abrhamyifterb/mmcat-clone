@@ -3,6 +3,7 @@ package cz.matfyz.server.example.common;
 import cz.matfyz.abstractwrappers.database.Database.DatabaseType;
 import cz.matfyz.server.configuration.SetupProperties;
 import cz.matfyz.server.entity.database.DatabaseInit;
+import cz.matfyz.wrappercassandradb.CassandraSettings;
 import cz.matfyz.wrappermongodb.MongoDBSettings;
 import cz.matfyz.wrapperneo4j.Neo4jSettings;
 import cz.matfyz.wrapperpostgresql.PostgreSQLSettings;
@@ -54,8 +55,19 @@ public class DatabaseSettings {
             "neo4j",
             properties.password()
         );
-
         return new DatabaseInit(label, mapper.valueToTree(settings), DatabaseType.neo4j);
     }
 
+    public DatabaseInit createCassandra(String label) {
+        final var settings = new CassandraSettings(
+            properties.isInDocker() ? "mmcat-cassandra" : "localhost",
+            properties.isInDocker() ? 9042 : 3208,
+            database,
+            properties.username(),
+            properties.password(),
+            "datacenter1"
+        );
+
+        return new DatabaseInit(label, mapper.valueToTree(settings), DatabaseType.cassandra);
+    }
 }

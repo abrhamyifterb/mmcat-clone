@@ -67,4 +67,9 @@ public class PostgreSQLDDLWrapper implements AbstractDDLWrapper {
         String name,
         String command
     ) {}
+
+    @Override
+    public void setPrimaryKey(Set<String> keyColumns) {
+        // TODO Auto-generated method stub
+    }
 }

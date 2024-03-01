@@ -35,7 +35,6 @@ public class InstanceCategoryService {
     public InstanceMorphism findMorphism(HttpSession session, Id categoryId, Signature signature) {
         var store = UserStore.fromSession(session);
         var category = store.getCategory(categoryId);
-
         return category != null ? category.getMorphism(signature) : null;
     }
 

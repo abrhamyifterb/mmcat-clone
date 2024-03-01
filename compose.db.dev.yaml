@@ -18,6 +18,7 @@ services:
             dockerfile: docker/database/Dockerfile
         env_file: .env
         environment:
+            - POSTGRES_HOST_AUTH_METHOD=trust
             - POSTGRES_PASSWORD=${POSTGRESQL_SUPERUSER_PASSWORD}
         expose:
             - 5432
@@ -33,6 +34,7 @@ services:
             dockerfile: docker/postgresql/Dockerfile
         env_file: .env
         environment:
+            - POSTGRES_HOST_AUTH_METHOD=trust
             - POSTGRES_PASSWORD=${POSTGRESQL_SUPERUSER_PASSWORD}
         expose:
             - 5432
@@ -71,6 +73,21 @@ services:
             - 3206:7687
             # The bolt port has to be as is because the browser client expects it to be there.
             - 3207:7474
+
+    cassandra:
+        container_name: "mmcat-cassandra"
+        restart: always
+        build: 
+            context: .
+            dockerfile: docker/cassandra/Dockerfile
+        env_file: .env
+        expose:
+            - 9042
+        ports:
+            # Make the DB available on localhost for development.
+            - 3208:9042
+        environment:
+            - CASSANDRA_CLUSTER_NAME=mmcatCluster
 
 networks:
     default:

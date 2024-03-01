@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # psql postgresql://${EXAMPLE_USERNAME}:${EXAMPLE_PASSWORD}@localhost:${EXAMPLE_PORT}/${EXAMPLE_DATABASE_BASIC} -f src/main/resources/setupPostgresqlBasic.sql
-
+echo "PostgreSQL is Starting"
 psql --username postgres << EOSQL
 SET ROLE postgres;
 CREATE ROLE "${EXAMPLE_USERNAME}" LOGIN PASSWORD '${EXAMPLE_PASSWORD}';
@@ -16,4 +16,6 @@ SET ROLE "${EXAMPLE_USERNAME}";
 \c "${EXAMPLE_DATABASE_QUERY_EVOLUTION}";
 SET ROLE "${EXAMPLE_USERNAME}";
 \i setupPostgresqlQueryEvolution.sql;
+
 EOSQL
+echo "PostgreSQL is ending - sleeping"

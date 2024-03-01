@@ -42,7 +42,10 @@ public class DDLAlgorithm {
     
     public AbstractStatement algorithm() {
         wrapper.setKindName(mapping.kindName());
-        
+
+        Set<String> pkColumns = extractPrimaryKeyColumns(mapping);
+        wrapper.setPrimaryKey(pkColumns);
+
         if (!wrapper.isSchemaLess()) {
             Deque<StackElement> masterStack = new ArrayDeque<>();
             addSubpathsToStack(masterStack, mapping.accessPath(), Set.of(AbstractDDLWrapper.EMPTY_NAME));
@@ -53,6 +56,26 @@ public class DDLAlgorithm {
         
         return wrapper.createDDLStatement();
     }
+
+    private Set<String> extractPrimaryKeyColumns(Mapping mapping) {
+        Set<String> pkColumns = new TreeSet<>();
+    
+        for (Signature signature : mapping.primaryKey()) {
+            if (signature.isEmpty()) continue;
+    
+            AccessPath subpath = mapping.accessPath().getSubpathBySignature(signature);
+            if (subpath == null) continue;
+    
+            if (subpath.name() instanceof StaticName staticName) {
+                pkColumns.add(staticName.getStringName());
+            } else {
+                throw new UnsupportedOperationException("Dynamic names are not supported for primary keys.");
+            }
+        }
+    
+        return pkColumns;
+    }
+    
 
     private void addSubpathsToStack(Deque<StackElement> masterStack, ComplexProperty path, Set<String> names) {
         for (AccessPath subpath : path.subpaths())

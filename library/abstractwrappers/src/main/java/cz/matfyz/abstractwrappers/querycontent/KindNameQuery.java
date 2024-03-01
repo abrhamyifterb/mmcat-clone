@@ -31,10 +31,35 @@ public class KindNameQuery implements QueryContent {
         this.kindName = kindName;
         this.limit = limit;
         this.offset = offset;
+
+        this.partitionKey = "";
+        this.partitionValue = "";
     }
 
     public KindNameQuery(String kindName) {
         this(kindName, null, null);
     }
 
+    private final String partitionKey;
+    private final String partitionValue;
+
+    public KindNameQuery(String kindName, String partitionKey, String partitionValue, Integer limit, Integer offset) {
+        this.kindName = kindName;
+        this.partitionKey = partitionKey;
+        this.partitionValue = partitionValue;
+        this.limit = limit;
+        this.offset = offset;
+    }
+
+    public String getPartitionKey() {
+        return partitionKey;
+    }
+
+    public String getPartitionValue() {
+        return partitionValue;
+    }
+
+    public boolean hasPartitionKey() {
+        return partitionKey != null && !partitionKey.isEmpty();
+    }
 }

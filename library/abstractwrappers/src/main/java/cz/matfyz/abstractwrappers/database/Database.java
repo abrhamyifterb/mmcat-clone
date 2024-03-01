@@ -18,7 +18,8 @@ public class Database implements Comparable<Database> {
     public enum DatabaseType {
         mongodb,
         postgresql,
-        neo4j
+        neo4j,
+        cassandra
     }
 
     public final DatabaseType type;

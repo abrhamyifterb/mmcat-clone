@@ -72,7 +72,8 @@ export type DatabaseUpdate = DeepPartial<DatabaseInit> & { settings: Partial<Set
 export enum Type {
     mongodb = 'mongodb',
     postgresql = 'postgresql',
-    neo4j = 'neo4j'
+    neo4j = 'neo4j',
+    cassandra = 'cassandra'
 }
 
 export const DB_TYPES: { type: Type, label: string }[] = [
@@ -87,6 +88,10 @@ export const DB_TYPES: { type: Type, label: string }[] = [
     {
         type: Type.neo4j,
         label: 'Neo4j',
+    },    
+    {
+        type: Type.cassandra,
+        label: 'Cassandra',
     },
 ];
 

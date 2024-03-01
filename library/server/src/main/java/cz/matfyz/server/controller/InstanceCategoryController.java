@@ -48,16 +48,20 @@ public class InstanceCategoryController {
     @GetMapping("/instances/{categoryId}/morphisms/{signatureString}")
     public InstanceMorphismWrapper getInstanceMorphism(HttpSession session, @PathVariable Id categoryId, @PathVariable String signatureString) {
         final var signature = Signature.fromString(signatureString);
-        if (signature == null)
+        if (signature == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-
-        if (signature.isEmpty())
+        }
+            
+        if (signature.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
 
         final var morphism = service.findMorphism(session, categoryId, signature);
 
-        if (morphism == null)
+        if (morphism == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+            
         
         return new InstanceMorphismWrapper(morphism);
     }

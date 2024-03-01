@@ -12,6 +12,9 @@ import cz.matfyz.wrapperneo4j.Neo4jSettings;
 import cz.matfyz.wrapperpostgresql.PostgreSQLControlWrapper;
 import cz.matfyz.wrapperpostgresql.PostgreSQLProvider;
 import cz.matfyz.wrapperpostgresql.PostgreSQLSettings;
+import cz.matfyz.wrappercassandradb.CassandraControlWrapper;
+import cz.matfyz.wrappercassandradb.CassandraProvider;
+import cz.matfyz.wrappercassandradb.CassandraSettings;
 
 public class DatabaseProvider {
 
@@ -91,4 +94,27 @@ public class DatabaseProvider {
         return new TestDatabase<>(DatabaseType.neo4j, wrapper, schema, setupFileName);
     }
 
+    // Cassandra
+
+    private CassandraProvider cassandraProvider;
+
+    public CassandraProvider getCassandraProvider() {
+        if (cassandraProvider == null) {
+            cassandraProvider = new CassandraProvider(new CassandraSettings(
+                CONFIG.getBool("isInDocker") ? "mmcat-cassandra" : "localhost",
+                CONFIG.getBool("isInDocker") ? 9042 : 3208,
+                CONFIG.get("database"),
+                CONFIG.get("username"),
+                CONFIG.get("password"),
+                "datacenter1"
+            ));
+        }
+
+        return cassandraProvider;
+    }
+
+    public TestDatabase<CassandraControlWrapper> createCassandra(SchemaCategory schema, String setupFileName) {
+        final var wrapper = new CassandraControlWrapper(getCassandraProvider());
+        return new TestDatabase<>(DatabaseType.cassandra, wrapper, schema, setupFileName);
+    }
 }

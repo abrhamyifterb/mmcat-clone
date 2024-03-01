@@ -30,7 +30,7 @@ class DatabaseSetup {
         inits.add(settings.createPostgreSQL("PostgreSQL - Basic"));
         inits.add(settings.createMongoDB("MongoDB - Basic"));
         inits.add(settings.createNeo4j("Neo4j - Basic"));
-        
+        inits.add(settings.createCassandra("Cassandra - Basic"));
         return inits.stream().map(databaseService::createNew).toList();
     }
 

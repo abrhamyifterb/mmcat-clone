@@ -96,7 +96,6 @@ public class InstanceToDatabase {
         statements.add(ddlStatement);
         statements.add(icStatement);
         statements.addAll(dmlStatements);
-
         Statistics.end(Interval.INSTANCE_TO_DATABASE);
 
         return new InstanceToDatabaseResult(statementsAsString, statements);
@@ -104,6 +103,7 @@ public class InstanceToDatabase {
 
     private String statementsToString(AbstractStatement ddlStatement, AbstractStatement icStatement, List<AbstractStatement> dmlStatements) {
         final var output = new StringBuilder();
+
         output.append(ddlStatement.getContent())
             .append("\n");
 
